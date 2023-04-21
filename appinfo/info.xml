@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>kmaassignwork</id>
+    <name>Kma Assign Work</name>
+    <summary>KMA assign work</summary>
+    <description><![CDATA[KMA assign work]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="khachdoi@gmail.com" >GiangVu</author>
+    <namespace>KmaAssignWork</namespace>
+    <category>integration</category>
+    <bugs>https://google.com</bugs>
+    <dependencies>
+        <nextcloud min-version="22" max-version="22"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Kma Assign Work</name>
+            <route>kmaassignwork.page.index</route>
+        </navigation>
+    </navigations>
+</info>

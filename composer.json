@@ -1,0 +1,15 @@
+{
+    "name": "Kma Assign Work",
+    "description": "KMA assign work",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "GiangVu"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}
