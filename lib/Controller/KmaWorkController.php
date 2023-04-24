@@ -49,7 +49,7 @@ class KmaWorkController extends Controller {
      *
      * @param string $kma_work_id
      * @param string $work_name
-     * @param string detail
+     * @param string $detail
      * @param string $level
 	 * @param string $status
      * @param string $progress
