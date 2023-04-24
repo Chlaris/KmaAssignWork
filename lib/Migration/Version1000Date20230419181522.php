@@ -43,8 +43,13 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'length' => 64
 			]);
 
+			$table->addColumn('detail', 'text', [
+				'notnull' => true,
+				'default' => '',
+			]);
+
             $table->addColumn('level', 'string', [
-				'notnull' => false,
+				'notnull' => true,
 				'length' => 64,
 			]);
 
@@ -67,7 +72,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 			]);
 
             $table->addColumn('assigned_person_id', 'string', [
-				'notnull' => false,
+				'notnull' => true,
 				'length' => 64,
 			]);
 
@@ -77,7 +82,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 			]);
 
             $table->addColumn('attached_files', 'longtext', [
-				'notnull' => true,
+				'notnull' => false,
 				'default' => '',
 			]);
 
@@ -99,8 +104,8 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
             $table->setPrimaryKey(['kma_level_id']);
         }
 
-        if (!$schema->hasTable('task_in_work')){
-			$table = $schema->createTable('task_in_work');
+        if (!$schema->hasTable('kma_task_in_work')){
+			$table = $schema->createTable('kma_task_in_work');
 			$table->addColumn('kma_task_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
@@ -129,9 +134,9 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
             $table->setPrimaryKey(['kma_task_id']);
         }
 
-        if (!$schema->hasTable('work_notification')){
-			$table = $schema->createTable('work_notification');
-			$table->addColumn('kma_notification_id', 'string', [
+        if (!$schema->hasTable('kma_work_noti')){
+			$table = $schema->createTable('kma_work_noti');
+			$table->addColumn('kma_noti_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
 				'default' => '',
@@ -159,7 +164,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
             $table->addColumn('isNew', 'boolean', [
 				'notnull' => true,
 			]);
-            $table->setPrimaryKey(['kma_notification_id']);
+            $table->setPrimaryKey(['kma_noti_id']);
         }
     }
     /**
