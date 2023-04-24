@@ -31,35 +31,43 @@ class KmaNotiController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_task_id
-     * @param string $kma_work_id
-     * @param string $task_name
-	 * @param string $content
-     * @param string $status
+     * @param string $kma_noti_id
+     * @param string $content
+     * @param string $sender_id
+	 * @param string $receiver_id
+     * @param string $assignment_time
+     * @param string $isNew
      */
-    public function createKmaTask($kma_task_id, $kma_work_id, $task_name, $content, $status) {
-        $currentUser = $this->userSession->getUser();
-        $uid = $currentUser->getUID();
+    public function createKmaNoti($kma_noti_id, $content, $sender_id, $receiver_id, $assignment_time, $isNew) {
+        $user1 = $this->db->getQueryBuilder();
+            $user1->select('*')
+                ->from('accounts')
+                ->where($user->expr()->eq('uid', $user->createNamedParameter($receiver_id)));
+            $result1 = $user1->execute();
+            $data1 = $result1->fetch();
+            if ($data1 === false) {
+                return new DataResponse(["Don't have assigned person's account"], Http::STATUS_NOT_FOUND);
+            }
 
-		if ($this->groupManager->isAdmin($uid)) {
-            $user = $this->db->getQueryBuilder();
-            $user->select('*')
-                ->from('oc_kma_work')
-                ->where($user->expr()->eq('kma_work_id', $user->createNamedParameter($kma_work_id)));
-            $result = $user->execute();
-            $data = $result->fetch();
-            if ($data === false) {
-                return new DataResponse(["Don't have this work"], Http::STATUS_NOT_FOUND);
+            $user2 = $this->db->getQueryBuilder();
+            $user2->select('*')
+                ->from('accounts')
+                ->where($user->expr()->eq('uid', $user->createNamedParameter($sender_id)));
+            $result2 = $user2->execute();
+            $data2 = $result2->fetch();
+            if ($data2 === false) {
+                return new DataResponse(["Don't have supporter's account"], Http::STATUS_NOT_FOUND);
             }
 
             $query = $this->db->getQueryBuilder();
-            $query->insert('kma_task_in_work')
+            $query->insert('kma_work_noti')
                 ->values([
-                    'kma_task_id' => $query->createNamedParameter($kma_task_id),
-                    'kma_work_id' => $query->createNamedParameter($kma_work_id),
-                    'task_name' => $query->createNamedParameter($task_name),
+                    'kma_noti_id' => $query->createNamedParameter($kma_noti_id),
                     'content' => $query->createNamedParameter($content),
-                    'status' => $query->createNamedParameter($status),
+                    'sender_id' => $query->createNamedParameter($sender_id),
+                    'receiver_id' => $query->createNamedParameter($receiver_id),
+                    'assignment_time' => $query->createNamedParameter($assignment_time),
+                    'isNew' => $query->createNamedParameter($isNew),
                 ])
                 ->execute();
             return new DataResponse(['status' => 'success']);
@@ -74,27 +82,27 @@ class KmaNotiController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-    public function getAllTaskInWork() {
+    public function getAllNoti() {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('oc_kma_task_in_work');
+            ->from('oc_kma_work_noti');
 
         $result = $query->execute();
-        $tasks = $result->fetchAll();
-        return ['tasks' => $tasks];
+        $notifs = $result->fetchAll();
+        return ['notifs' => $notifs];
     }
 
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_task_id
+     * @param string $kma_noti_id
      */
-    public function getKmaTaskInWork($kma_task_id) {
+    public function getKmaNoti($kma_noti_id) {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('kma_task_in_work')
-            ->where($query->expr()->eq('kma_task_id', $query->createNamedParameter($kma_task_id)));
+            ->from('kma_work_noti')
+            ->where($query->expr()->eq('kma_noti_id', $query->createNamedParameter($kma_noti_id)));
 
         $result = $query->execute();
         $data = $result->fetchAll();
@@ -102,11 +110,12 @@ class KmaNotiController extends Controller {
             return new DataResponse([], Http::STATUS_NOT_FOUND);
         }
         return new DataResponse([
-            'Ma tac vu' => $data['kma_task_id'],
-            'Ma cong viec' => $data['kma_work_id'],
-            'Ten tac vu' => $data['task_name'],
+            'Ma thong bao' => $data['kma_noti_id'],
             'Noi dung' => $data['content'],
-            'Trang thai' => $data['status'],
+            'Ma nguoi gui' => $data['sender_id'],
+            'Ma nguoi nhan' => $data['receiver_id'],
+            'Thoi gian tao' => $data['assignment_time'],
+            'isNew' => $data['isNew'],
         ]);
     }
     
@@ -114,19 +123,22 @@ class KmaNotiController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_task_id
-     * @param string $kma_work_id
-     * @param string $task_name
+     * @param string $kma_noti_id
      * @param string $content
-	 * @param string $status
+     * @param string $sender_id
+	 * @param string $receiver_id
+     * @param string $assignment_time
+     * @param string $isNew
      * @return JSONResponse
      */
-    public function updateInfoTask($kma_task_id, $kma_work_id, $task_name = null, $content = null, $status = null) {
-        $query = $this->db->prepare('UPDATE `oc_kma_task_in_work` SET `task_name` = COALESCE(?, `task_name`), 
-                                                            `content` = COALESCE(?, `content`), 
-                                                            `status` = COALESCE(?, `status`), 
-                                                                WHERE `kma_task_id` = ?');
-        $query->execute(array($task_name, $content, $status, $kma_work_id, $kma_task_id));
+    public function updateInfoNoti($kma_noti_id, $content = null, $sender_id = null, $receiver_id = null, $assignment_time = null, $isNew = null) {
+        $query = $this->db->prepare('UPDATE `oc_kma_work_noti` SET `content` = COALESCE(?, `content`), 
+                                                            `sender_id` = COALESCE(?, `sender_id`), 
+                                                            `receiver_id` = COALESCE(?, `receiver_id`), 
+                                                            `assignment_time` = COALESCE(?, `assignment_time`), 
+                                                            `isNew` = COALESCE(?, `isNew`), 
+                                                                WHERE `kma_noti_id` = ?');
+        $query->execute(array($content, $sender_id, $receiver_id, $assignment_time, $isNew, $kma_noti_id));
         return new JSONResponse(array('status' => 'success'));
     }
 
@@ -134,12 +146,12 @@ class KmaNotiController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_task_id
+     * @param string $kma_noti_id
      */
-    public function deleteKmaTask($kma_task_id) {
+    public function deleteKmaNoti($kma_noti_id) {
         $query = $this->db->getQueryBuilder();
-        $query->delete('kma_task_in_work')
-            ->where($query->expr()->eq('kma_task_id', $query->createNamedParameter($kma_task_id)))
+        $query->delete('kma_work_ntoti')
+            ->where($query->expr()->eq('kma_noti_id', $query->createNamedParameter($kma_noti_id)))
             ->execute();
         return new DataResponse(['status' => 'success']);
     }

@@ -42,11 +42,11 @@ class KmaTaskController extends Controller {
         $uid = $currentUser->getUID();
 
 		if ($this->groupManager->isAdmin($uid)) {
-            $user = $this->db->getQueryBuilder();
-            $user->select('*')
+            $work = $this->db->getQueryBuilder();
+            $work->select('*')
                 ->from('oc_kma_work')
-                ->where($user->expr()->eq('kma_work_id', $user->createNamedParameter($kma_work_id)));
-            $result = $user->execute();
+                ->where($work->expr()->eq('kma_work_id', $user->createNamedParameter($kma_work_id)));
+            $result = $work->execute();
             $data = $result->fetch();
             if ($data === false) {
                 return new DataResponse(["Don't have this work"], Http::STATUS_NOT_FOUND);
