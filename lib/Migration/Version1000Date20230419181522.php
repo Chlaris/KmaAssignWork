@@ -81,11 +81,6 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 
-            $table->addColumn('attached_files', 'longtext', [
-				'notnull' => false,
-				'default' => '',
-			]);
-
             $table->setPrimaryKey(['kma_work_id']);
         }
 
@@ -134,38 +129,6 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
             $table->setPrimaryKey(['kma_task_id']);
         }
 
-        if (!$schema->hasTable('kma_work_noti')){
-			$table = $schema->createTable('kma_work_noti');
-			$table->addColumn('kma_noti_id', 'string', [
-				'notnull' => true,
-				'length' => 64,
-				'default' => '',
-			]);
-
-            $table->addColumn('content', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
-
-            $table->addColumn('sender_id', 'string', [
-				'notnull' => true,
-				'length' => 64,
-			]);
-
-            $table->addColumn('receiver_id', 'string', [
-				'notnull' => false,
-				'length' => 64,
-			]);
-
-            $table->addColumn('assignment_time', 'date', [
-				'notnull' => false,
-			]);
-
-            $table->addColumn('isNew', 'boolean', [
-				'notnull' => true,
-			]);
-            $table->setPrimaryKey(['kma_noti_id']);
-        }
     }
     /**
 	 * @param IOutput $output
