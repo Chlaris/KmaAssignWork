@@ -57,9 +57,8 @@ class KmaWorkController extends Controller {
      * @param string $end_time
      * @param string $assigned_person_id
      * @param string $supporter_id
-     * @param string $attached_files
      */
-    public function createKmaWork($kma_work_id, $work_name, $detail, $level, $status, $progress, $assignment_time, $end_time, $assigned_person_id, $supporter_id, $attached_files) {
+    public function createKmaWork($kma_work_id, $work_name, $detail, $level, $status, $progress, $assignment_time, $end_time, $assigned_person_id, $supporter_id) {
         $currentUser = $this->userSession->getUser();
         $uid = $currentUser->getUID();
 
@@ -96,9 +95,6 @@ class KmaWorkController extends Controller {
                     'assignment_time' => $query->createNamedParameter($assignment_time),
                     'end_time' => $query->createNamedParameter($end_time),
                     'assigned_person_id' => $query->createNamedParameter($assigned_person_id),
-                    'supporter_id' => $query->createNamedParameter($supporter_id),
-                    'attached_files' => $query->createNamedParameter($attached_files),
-                    // Add other desired columns here
                 ])
                 ->execute();
             return new DataResponse(['status' => 'success']);
@@ -151,7 +147,6 @@ class KmaWorkController extends Controller {
             'Thoi gian ket thuc' => $data['end_time'],
             'Nguoi phu trach' => $data['assigned_person_id'],
             'Nguoi ho tro' => $data['supporter_id'],
-            'Tep dinh kem' => $data['attached_files'],
         ]);
     }
 
@@ -169,10 +164,9 @@ class KmaWorkController extends Controller {
      * @param string $end_time
      * @param string $assigned_person_id
      * @param string $supporter_id
-     * @param string $attached_files
      * @return JSONResponse
      */
-    public function updateInfoKMAUser($kma_work_id, $work_name = null, $detail = null, $level = null, $status = null, $progress = null, $assignment_time = null, $end_time = null, $assigned_person_id = null, $supporter_id = null, $attached_files = null) {
+    public function updateInfoKMAUser($kma_work_id, $work_name = null, $detail = null, $level = null, $status = null, $progress = null, $assignment_time = null, $end_time = null, $assigned_person_id = null, $supporter_id = null) {
         $query = $this->db->prepare('UPDATE `oc_kma_work` SET `work_name` = COALESCE(?, `work_name`), 
                                                             `detail` = COALESCE(?, `detail`), 
                                                             `level` = COALESCE(?, `level`), 
@@ -181,8 +175,7 @@ class KmaWorkController extends Controller {
                                                             `assignment_time` = COALESCE(?, `assignment_time`),
                                                             `end_time` = COALESCE(?, `end_time`),
                                                             `assigned_person_id` = COALESCE(?, `assigned_person_id`),
-                                                            `supporter_id` = COALESCE(?, `supporter_id`),
-                                                            `attached_files` = COALESCE(?, `attached_files`)
+                                                            `supporter_id` = COALESCE(?, `supporter_id`)
                                                                 WHERE `kma_work_id` = ?');
         $query->execute(array($work_name, $detail, $level, $status, $progress, $assignment_time, $end_time, $assigned_person_id, $supporter_id, $attached_files, $kma_work_id));
         return new JSONResponse(array('status' => 'success'));
