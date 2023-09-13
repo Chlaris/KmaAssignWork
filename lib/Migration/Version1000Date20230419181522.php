@@ -30,9 +30,10 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-        if (!$schema->hasTable('kma_work')){
-			$table = $schema->createTable('kma_work');
-			$table->addColumn('kma_work_id', 'string', [
+		// work_item
+        if (!$schema->hasTable('kma_work_item')){
+			$table = $schema->createTable('kma_work_item');
+			$table->addColumn('work_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
 				'default' => '',
@@ -43,90 +44,117 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'length' => 64
 			]);
 
-			$table->addColumn('detail', 'text', [
+			$table->addColumn('work_description', 'text', [
 				'notnull' => true,
 				'default' => '',
 			]);
 
-            $table->addColumn('level', 'string', [
+            $table->addColumn('level_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
 			]);
 
-            $table->addColumn('status', 'string', [
+            $table->addColumn('status_id', 'string', [
 				'notnull' => false,
 				'length' => 64,
 			]);
 
-            $table->addColumn('progress', 'string', [
-				'notnull' => false,
-				'length' => 64,
-			]);
-
-            $table->addColumn('assignment_time', 'date', [
+            $table->addColumn('work_start', 'date', [
 				'notnull' => false,
 			]);
 
-            $table->addColumn('end_time', 'date', [
+            $table->addColumn('work_end', 'date', [
 				'notnull' => false,
 			]);
 
-            $table->addColumn('assigned_person_id', 'string', [
+            $table->addColumn('user_create', 'string', [
 				'notnull' => true,
 				'length' => 64,
 			]);
 
-            $table->addColumn('supporter_id', 'string', [
+            $table->addColumn('user_respond', 'string', [
 				'notnull' => false,
 				'length' => 64,
 			]);
 
-            $table->setPrimaryKey(['kma_work_id']);
+			$table->addColumn('user_support', 'string', [
+				'notnull' => false,
+				'length' => 64,
+			]);
+
+            $table->setPrimaryKey(['work_id']);
         }
 
-        if (!$schema->hasTable('work_level')){
-			$table = $schema->createTable('work_level');
-			$table->addColumn('kma_level_id', 'string', [
+		// level
+        if (!$schema->hasTable('kma_level')){
+			$table = $schema->createTable('kma_level');
+			$table->addColumn('level_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
 				'default' => '',
 			]);
 
-            $table->addColumn('description', 'string', [
+			$table->addColumn('level_name', 'string', [
+				'notnull' => true,
+				'length' => 64,
+				'default' => '',
+			]);
+
+            $table->addColumn('level_description', 'string', [
 				'notnull' => true,
 				'length' => 255
 			]);
-            $table->setPrimaryKey(['kma_level_id']);
+            $table->setPrimaryKey(['level_id']);
         }
 
-        if (!$schema->hasTable('kma_task_in_work')){
-			$table = $schema->createTable('kma_task_in_work');
-			$table->addColumn('kma_task_id', 'string', [
+		// task_item
+        if (!$schema->hasTable('kma_task_item')){
+			$table = $schema->createTable('kma_task_item');
+			$table->addColumn('task_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
 				'default' => '',
 			]);
 
-            $table->addColumn('kma_work_id', 'string', [
-				'notnull' => true,
-				'length' => 64,
-			]);
-
-            $table->addColumn('task_name', 'string', [
+			$table->addColumn('task_name', 'string', [
 				'notnull' => true,
 				'length' => 64
 			]);
 
-            $table->addColumn('content', 'string', [
+			$table->addColumn('task_description', 'string', [
 				'notnull' => true,
 				'length' => 255
 			]);
 
-            $table->addColumn('status', 'string', [
+			$table->addColumn('status_id', 'string', [
 				'notnull' => false,
 				'length' => 64,
 			]);
-            $table->setPrimaryKey(['kma_task_id']);
+
+            $table->addColumn('work_id', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+            
+            $table->setPrimaryKey(['task_id']);
+        }
+
+		// status
+        if (!$schema->hasTable('kma_status')){
+			$table = $schema->createTable('kma_status');
+			$table->addColumn('status_id', 'string', [
+				'notnull' => true,
+				'length' => 64,
+				'default' => '',
+			]);
+
+			$table->addColumn('status_name', 'string', [
+				'notnull' => true,
+				'length' => 64,
+				'default' => '',
+			]);
+
+            $table->setPrimaryKey(['status_id']);
         }
 
     }
