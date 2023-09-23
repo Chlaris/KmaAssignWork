@@ -49,16 +49,12 @@ class KmaWorkController extends Controller {
      *
      * @param string $kma_work_id
      * @param string $work_name
-     * @param string $detail
-     * @param string $level
-	 * @param string $status
-     * @param string $progress
-     * @param string $assignment_time
-     * @param string $end_time
-     * @param string $assigned_person_id
-     * @param string $supporter_id
+     * @param longtext $work_description
+     * @param string $level_id
+     * @param string $status_id
+	 * @param string $user_create
      */
-    public function createKmaWork($kma_work_id, $work_name, $detail, $level, $status, $progress, $assignment_time, $end_time, $assigned_person_id, $supporter_id) {
+    public function createKmaWork($kma_work_id, $work_name, $work_description, $level_id, $status_id, $user_create) {
         $currentUser = $this->userSession->getUser();
         $uid = $currentUser->getUID();
 
@@ -66,21 +62,11 @@ class KmaWorkController extends Controller {
             $user1 = $this->db->getQueryBuilder();
             $user1->select('*')
                 ->from('accounts')
-                ->where($user->expr()->eq('uid', $user->createNamedParameter($assigned_person_id)));
+                ->where($user->expr()->eq('uid', $user->createNamedParameter(user_create)));
             $result1 = $user1->execute();
             $data1 = $result1->fetch();
             if ($data1 === false) {
                 return new DataResponse(["Don't have assigned person's account"], Http::STATUS_NOT_FOUND);
-            }
-
-            $user2 = $this->db->getQueryBuilder();
-            $user2->select('*')
-                ->from('accounts')
-                ->where($user->expr()->eq('uid', $user->createNamedParameter($supporter_id)));
-            $result2 = $user2->execute();
-            $data2 = $result2->fetch();
-            if ($data2 === false) {
-                return new DataResponse(["Don't have supporter's account"], Http::STATUS_NOT_FOUND);
             }
 
             $query = $this->db->getQueryBuilder();
@@ -88,13 +74,10 @@ class KmaWorkController extends Controller {
                 ->values([
                     'kma_work_id' => $query->createNamedParameter($kma_work_id),
                     'work_name' => $query->createNamedParameter($work_name),
-                    'detail' => $query->createNamedParameter($detail),
-                    'level' => $query->createNamedParameter($level),
-                    'status' => $query->createNamedParameter($status),
-                    'progress' => $query->createNamedParameter($progress),
-                    'assignment_time' => $query->createNamedParameter($assignment_time),
-                    'end_time' => $query->createNamedParameter($end_time),
-                    'assigned_person_id' => $query->createNamedParameter($assigned_person_id),
+                    'work_description' => $query->createNamedParameter($work_description),
+                    'level_id' => $query->createNamedParameter($level_id),
+                    'status_id' => $query->createNamedParameter($status_id),
+                    'user_create' => $query->createNamedParameter($user_create),
                 ])
                 ->execute();
             return new DataResponse(['status' => 'success']);
@@ -112,7 +95,7 @@ class KmaWorkController extends Controller {
     public function getAllKmaWork() {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('kma_work');
+            ->from('kma_work_item');
 
         $result = $query->execute();
         $work = $result->fetchAll();
@@ -123,13 +106,13 @@ class KmaWorkController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_work_id
+     * @param string $work_id
      */
-    public function getKmaWork($kma_work_id) {
+    public function getKmaWork($work_id) {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('kma_work')
-            ->where($query->expr()->eq('kma_work_id', $query->createNamedParameter($kma_work_id)));
+            ->from('work_id')
+            ->where($query->expr()->eq('work_id', $query->createNamedParameter($work_id)));
 
         $result = $query->execute();
         $data = $result->fetchAll();
@@ -137,16 +120,12 @@ class KmaWorkController extends Controller {
             return new DataResponse([], Http::STATUS_NOT_FOUND);
         }
         return new DataResponse([
-            'Ma cong viec' => $data['kma_work_id'],
+            'Ma cong viec' => $data['work_id'],
             'Ten cong viec' => $data['work_name'],
-            'Chi tiet cong viec' => $data['detail'],
-            'Muc do uu tien' => $data['level'],
-            'Trang thai' => $data['status'],
-            'Tien do' => $data['progress'],
-            'Thoi gian giao viec' => $data['assignment_time'],
-            'Thoi gian ket thuc' => $data['end_time'],
-            'Nguoi phu trach' => $data['assigned_person_id'],
-            'Nguoi ho tro' => $data['supporter_id'],
+            'Chi tiet cong viec' => $data['work_description'],
+            'Muc do uu tien' => $data['level_id'],
+            'Trang thai' => $data['status_id'],
+            'Nguoi tao' => $data['user_create'],
         ]);
     }
 
@@ -156,28 +135,20 @@ class KmaWorkController extends Controller {
      *
      * @param string $kma_work_id
      * @param string $work_name
-     * @param string $detail
-     * @param string $level
-	 * @param string $status
-     * @param string $progress
-     * @param string $assignment_time
-     * @param string $end_time
-     * @param string $assigned_person_id
-     * @param string $supporter_id
+     * @param longtext $work_description
+     * @param string $level_id
+     * @param string $status_id
+	 * @param string $user_create
      * @return JSONResponse
      */
-    public function updateInfoKMAUser($kma_work_id, $work_name = null, $detail = null, $level = null, $status = null, $progress = null, $assignment_time = null, $end_time = null, $assigned_person_id = null, $supporter_id = null) {
-        $query = $this->db->prepare('UPDATE `oc_kma_work` SET `work_name` = COALESCE(?, `work_name`), 
-                                                            `detail` = COALESCE(?, `detail`), 
-                                                            `level` = COALESCE(?, `level`), 
-                                                            `status` = COALESCE(?, `status`), 
-                                                            `progress` = COALESCE(?, `progress`),
-                                                            `assignment_time` = COALESCE(?, `assignment_time`),
-                                                            `end_time` = COALESCE(?, `end_time`),
-                                                            `assigned_person_id` = COALESCE(?, `assigned_person_id`),
-                                                            `supporter_id` = COALESCE(?, `supporter_id`)
+    public function updateInfoKMAUser($kma_work_id, $work_name = null, $work_description = null, $level_id = null, $status_id = null, $user_create = null) {
+        $query = $this->db->prepare('UPDATE `oc_kma_work_item` SET `work_name` = COALESCE(?, `work_name`), 
+                                                            `work_description` = COALESCE(?, `work_description`), 
+                                                            `level_id` = COALESCE(?, `level_id`), 
+                                                            `status_id` = COALESCE(?, `status_id`), 
+                                                            `user_create` = COALESCE(?, `user_create`)
                                                                 WHERE `kma_work_id` = ?');
-        $query->execute(array($work_name, $detail, $level, $status, $progress, $assignment_time, $end_time, $assigned_person_id, $supporter_id, $attached_files, $kma_work_id));
+        $query->execute(array($work_name, $work_description, $level_id, $status_id, $user_create, $kma_work_id));
         return new JSONResponse(array('status' => 'success'));
     }
 
@@ -185,12 +156,12 @@ class KmaWorkController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_work_id
+     * @param string $work_id
      */
     public function deleteKmaWork($kma_work_id) {
         $query = $this->db->getQueryBuilder();
-        $query->delete('kma_work')
-            ->where($query->expr()->eq('kma_work_id', $query->createNamedParameter($kma_work_id)))
+        $query->delete('kma_work_item')
+            ->where($query->expr()->eq('work_id', $query->createNamedParameter($work_id)))
             ->execute();
         return new DataResponse(['status' => 'success']);
     }
