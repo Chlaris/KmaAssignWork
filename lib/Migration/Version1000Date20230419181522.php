@@ -49,7 +49,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 
-            $table->addColumn('level_id', 'string', [
+			$table->addColumn('level_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
 			]);
@@ -59,26 +59,8 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 
-            $table->addColumn('work_start', 'date', [
-				'notnull' => false,
-			]);
-
-            $table->addColumn('work_end', 'date', [
-				'notnull' => false,
-			]);
-
             $table->addColumn('user_create', 'string', [
 				'notnull' => true,
-				'length' => 64,
-			]);
-
-            $table->addColumn('user_respond', 'string', [
-				'notnull' => false,
-				'length' => 64,
-			]);
-
-			$table->addColumn('user_support', 'string', [
-				'notnull' => false,
 				'length' => 64,
 			]);
 
@@ -102,7 +84,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 
             $table->addColumn('level_description', 'string', [
 				'notnull' => true,
-				'length' => 255
+				'default' => '',
 			]);
             $table->setPrimaryKey(['level_id']);
         }
@@ -121,7 +103,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'length' => 64
 			]);
 
-			$table->addColumn('task_description', 'string', [
+			$table->addColumn('task_description', 'text', [
 				'notnull' => true,
 				'length' => 255
 			]);
@@ -133,6 +115,34 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 
             $table->addColumn('work_id', 'string', [
 				'notnull' => true,
+				'length' => 64,
+			]);
+
+			$table->addColumn('level_id', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+
+            $table->addColumn('status_id', 'string', [
+				'notnull' => false,
+				'length' => 64,
+			]);
+
+            $table->addColumn('work_start', 'date', [
+				'notnull' => false,
+			]);
+
+            $table->addColumn('work_end', 'date', [
+				'notnull' => false,
+			]);
+
+			$table->addColumn('user_respond', 'string', [
+				'notnull' => false,
+				'length' => 64,
+			]);
+
+			$table->addColumn('user_support', 'string', [
+				'notnull' => false,
 				'length' => 64,
 			]);
             
@@ -156,7 +166,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 
             $table->setPrimaryKey(['status_id']);
         }
-
+		return $schema;
     }
     /**
 	 * @param IOutput $output
