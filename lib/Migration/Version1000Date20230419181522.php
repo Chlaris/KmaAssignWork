@@ -123,11 +123,6 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 
-            $table->addColumn('status_id', 'string', [
-				'notnull' => false,
-				'length' => 64,
-			]);
-
             $table->addColumn('work_start', 'date', [
 				'notnull' => false,
 			]);
