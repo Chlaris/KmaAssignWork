@@ -12,7 +12,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IUserSession;
 use OCP\IGroupManager;
 
-class KmaTaskController extends Controller {
+class KmaLevelController extends Controller {
     private $db;
 
     /** @var IUserSession */
@@ -31,32 +31,17 @@ class KmaTaskController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $task_id
-     * @param string $task_name
-     * @param string $task_description
-     * @param string $status_id
-     * @param string $work_id
      * @param string $level_id
-     * @param date $work_start
-	 * @param date $work_end
-     * @param string $user_respond
-     * @param string $user_support
+     * @param string $level_name
+     * @param string $level_description
      */
-    public function createKmaTask($task_id, $task_name, $task_description, $status_id, $work_id, $level_id, $work_start, 
-    $work_end, $user_respond, $user_support) {
+    public function createKmaLevel($level_id, $level_name, $level_description) {
         $query = $this->db->getQueryBuilder();
-        $query->insert('kma_task_item')
+        $query->insert('kma_level')
                 ->values([
-                    'task_id' => $query->createNamedParameter($task_id),
-                    'task_name' => $query->createNamedParameter($task_name),
-                    'task_description' => $query->createNamedParameter($task_description),
-                    'status_id' => $query->createNamedParameter($status_id),
-                    'work_id' => $query->createNamedParameter($work_id),
                     'level_id' => $query->createNamedParameter($level_id),
-                    'work_start' => $query->createNamedParameter($work_start),
-                    'work_end' => $query->createNamedParameter($work_end),
-                    'user_respond' => $query->createNamedParameter($user_respond),
-                    'user_support' => $query->createNamedParameter($user_support),
+                    'level_name' => $query->createNamedParameter($level_name),
+                    'level_description' => $query->createNamedParameter($level_description),
                 ])
                 ->execute();
             return new DataResponse(['status' => 'success']);
@@ -97,14 +82,14 @@ class KmaTaskController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-    public function getAllKmaTask() {
+    public function getAllKmaLevel() {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('kma_task_item');
+            ->from('kma_level');
 
         $result = $query->execute();
         $tasks = $result->fetchAll();
-        return ['tasks' => $tasks];
+        return ['levels' => $tasks];
     }
 
     /**

@@ -43,36 +43,29 @@ class KmaWorkController extends Controller {
 	 * @NoCSRFRequired
 	 */
 
+    
+    public function sayHi() {
+		$message = "It's work, brooooo";
+        return new DataResponse($message);
+    }
      /**
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_work_id
+     * @param string $work_id
      * @param string $work_name
      * @param longtext $work_description
      * @param string $level_id
      * @param string $status_id
 	 * @param string $user_create
      */
-    public function createKmaWork($kma_work_id, $work_name, $work_description, $level_id, $status_id, $user_create) {
-        $currentUser = $this->userSession->getUser();
-        $uid = $currentUser->getUID();
-
-		if ($this->groupManager->isAdmin($uid)) {
-            $user1 = $this->db->getQueryBuilder();
-            $user1->select('*')
-                ->from('accounts')
-                ->where($user->expr()->eq('uid', $user->createNamedParameter(user_create)));
-            $result1 = $user1->execute();
-            $data1 = $result1->fetch();
-            if ($data1 === false) {
-                return new DataResponse(["Don't have assigned person's account"], Http::STATUS_NOT_FOUND);
-            }
-
-            $query = $this->db->getQueryBuilder();
-            $query->insert('kma_work')
+    public function createKmaWork($work_id, $work_name, $work_description, $level_id, $status_id, $user_create) {
+        // $currentUser = $this->userSession->getUser();
+        // $uid = $currentUser->getUID();
+        $query = $this->db->getQueryBuilder();
+        $query->insert('kma_work_item')
                 ->values([
-                    'kma_work_id' => $query->createNamedParameter($kma_work_id),
+                    'work_id' => $query->createNamedParameter($work_id),
                     'work_name' => $query->createNamedParameter($work_name),
                     'work_description' => $query->createNamedParameter($work_description),
                     'level_id' => $query->createNamedParameter($level_id),
@@ -81,10 +74,34 @@ class KmaWorkController extends Controller {
                 ])
                 ->execute();
             return new DataResponse(['status' => 'success']);
-        }
-        else {
-            return new DataResponse(['No admin']);
-        }
+
+		// if ($this->groupManager->isAdmin($uid)) {
+        //     $user1 = $this->db->getQueryBuilder();
+        //     $user1->select('*')
+        //         ->from('accounts')
+        //         ->where($user->expr()->eq('uid', $user->createNamedParameter(user_create)));
+        //     $result1 = $user1->execute();
+        //     $data1 = $result1->fetch();
+        //     if ($data1 === false) {
+        //         return new DataResponse(["Don't have assigned person's account"], Http::STATUS_NOT_FOUND);
+        //     }
+
+        //     $query = $this->db->getQueryBuilder();
+        //     $query->insert('kma_work')
+        //         ->values([
+        //             'kma_work_id' => $query->createNamedParameter($kma_work_id),
+        //             'work_name' => $query->createNamedParameter($work_name),
+        //             'work_description' => $query->createNamedParameter($work_description),
+        //             'level_id' => $query->createNamedParameter($level_id),
+        //             'status_id' => $query->createNamedParameter($status_id),
+        //             'user_create' => $query->createNamedParameter($user_create),
+        //         ])
+        //         ->execute();
+        //     return new DataResponse(['status' => 'success']);
+        // }
+        // else {
+        //     return new DataResponse(['No admin']);
+        // }
 
     }
 
@@ -111,7 +128,7 @@ class KmaWorkController extends Controller {
     public function getKmaWork($work_id) {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('work_id')
+            ->from('kma_work_item')
             ->where($query->expr()->eq('work_id', $query->createNamedParameter($work_id)));
 
         $result = $query->execute();

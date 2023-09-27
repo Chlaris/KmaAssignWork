@@ -9,7 +9,27 @@
  */
 return [
     'routes' => [
+        # Page
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
+
+       #Work_Item
+       ['name' => 'KmaWork#sayHi', 'url' => '/sayhi', 'verb' => 'GET'],
+       ['name' => 'KmaWork#getAllKmaWork', 'url' => '/all_kma_work', 'verb' => 'GET'],
+    //    ['name' => 'KmaWork#getKmaWork', 'url' => '/kma_work/{work_id}', 'verb' => 'GET'],
+       ['name' => 'KmaWork#createKmaWork', 'url' => '/create_kma_work', 'verb' => 'POST'],
+
+       #Task_Item
+       ['name' => 'KmaTask#sayHi', 'url' => '/sayhii', 'verb' => 'GET'],
+       ['name' => 'KmaTask#createKmaTask', 'url' => '/create_kma_task', 'verb' => 'POST'],
+       ['name' => 'KmaTask#getAllKmaTask', 'url' => '/all_kma_task', 'verb' => 'GET'],
+
+       #Level
+       ['name' => 'KmaLevel#createKmaLevel', 'url' => '/create_kma_level', 'verb' => 'POST'],
+       ['name' => 'KmaLevel#getAllKmaLevel', 'url' => '/all_kma_level', 'verb' => 'GET'],
+
+       #Status
+       ['name' => 'KmaStatus#createKmaStatus', 'url' => '/create_kma_status', 'verb' => 'POST'],
+       ['name' => 'KmaStatus#getAllKmaStatus', 'url' => '/all_kma_status', 'verb' => 'GET'],
     ]
 ];
