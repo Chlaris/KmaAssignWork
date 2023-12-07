@@ -161,6 +161,51 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 
             $table->setPrimaryKey(['status_id']);
         }
+
+		// comment
+		if (!$schema->hasTable('kma_comments')){
+			$table = $schema->createTable('kma_comments');
+			$table->addColumn('comments_id', 'integer', [
+				'notnull' => true,
+				'length' => 64,
+				'autoincrement' => true,
+			]);
+
+			$table->addColumn('user_create', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+
+			$table->addColumn('message', 'text', [
+				'notnull' => true,
+				'default' => '',
+			]);
+
+            $table->setPrimaryKey(['comments_id']);
+        }
+
+		if (!$schema->hasTable('kma_connection')){
+			$table = $schema->createTable('kma_connection');
+			$table->addColumn('connection_id', 'integer', [
+				'notnull' => true,
+				'length' => 64,
+				'autoincrement' => true,
+			]);
+
+			$table->addColumn('task_id', 'string', [
+				'notnull' => true,
+				'length' => 64,
+				'default' => '',
+			]);
+
+			$table->addColumn('file_id', 'integer', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+
+            $table->setPrimaryKey(['connection_id']);
+        }
+
 		return $schema;
     }
     /**

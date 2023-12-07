@@ -31,5 +31,16 @@ return [
        #Status
        ['name' => 'KmaStatus#createKmaStatus', 'url' => '/create_kma_status', 'verb' => 'POST'],
        ['name' => 'KmaStatus#getAllKmaStatus', 'url' => '/all_kma_status', 'verb' => 'GET'],
+
+       #Comment
+       ['name' => 'KmaCommnet#getAllTaskComments', 'url' => '/all_task_comments', 'verb' => 'GET'],
+       ['name' => 'KmaCommnet#getKmaComment', 'url' => '/kma_comments/{comment_id}', 'verb' => 'GET'],
+       ['name' => 'KmaCommnet#createKmaComment', 'url' => '/create_kma_comment', 'verb' => 'POST'],
+
+       #Connection
+       ['name' => 'KmaConnection#getAllKmaConnections', 'url' => '/all_connections', 'verb' => 'GET'],
+       ['name' => 'KmaConnection#getKmaConnection', 'url' => '/kma_connection/{connection_id}', 'verb' => 'GET'],
+       ['name' => 'KmaConnection#createKmaConnection', 'url' => '/create_kma_connection', 'verb' => 'POST'],
+
     ]
 ];
