@@ -16,13 +16,15 @@ return [
        #Work_Item
        ['name' => 'KmaWork#sayHi', 'url' => '/sayhi', 'verb' => 'GET'],
        ['name' => 'KmaWork#getAllKmaWork', 'url' => '/all_kma_work', 'verb' => 'GET'],
-    //    ['name' => 'KmaWork#getKmaWork', 'url' => '/kma_work/{work_id}', 'verb' => 'GET'],
+       ['name' => 'KmaWork#getKmaWork', 'url' => '/kma_work/{user_id}', 'verb' => 'GET'],
        ['name' => 'KmaWork#createKmaWork', 'url' => '/create_kma_work', 'verb' => 'POST'],
 
        #Task_Item
-       ['name' => 'KmaTask#sayHi', 'url' => '/sayhii', 'verb' => 'GET'],
+    //    ['name' => 'KmaTask#sayHi', 'url' => '/sayhii', 'verb' => 'GET'],
        ['name' => 'KmaTask#createKmaTask', 'url' => '/create_kma_task', 'verb' => 'POST'],
-       ['name' => 'KmaTask#getAllKmaTask', 'url' => '/all_kma_task', 'verb' => 'GET'],
+       ['name' => 'KmaTask#getAllKmaTask', 'url' => '/all_kma_tasks', 'verb' => 'GET'],
+       ['name' => 'KmaTask#getTaskByUserSupport', 'url' => '/kma_tasks/{user_id}', 'verb' => 'GET'],
+       ['name' => 'KmaTask#getTaskByUserRespond', 'url' => '/kma_tasks/{user_id}', 'verb' => 'GET'],
 
        #Level
        ['name' => 'KmaLevel#createKmaLevel', 'url' => '/create_kma_level', 'verb' => 'POST'],
