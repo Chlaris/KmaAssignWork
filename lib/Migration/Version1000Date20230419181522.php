@@ -170,8 +170,8 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
         }
 
 		// comment
-		if (!$schema->hasTable('kma_comments')){
-			$table = $schema->createTable('kma_comments');
+		if (!$schema->hasTable('kma_comment')){
+			$table = $schema->createTable('kma_comment');
 			$table->addColumn('comment_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
