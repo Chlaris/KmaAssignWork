@@ -14,17 +14,22 @@ return [
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
 
        #Work_Item
-       ['name' => 'KmaWork#sayHi', 'url' => '/sayhi', 'verb' => 'GET'],
+    //    ['name' => 'KmaWork#sayHi', 'url' => '/sayhi', 'verb' => 'GET'],
+       ['name' => 'KmaWork#createKmaWork', 'url' => '/create_kma_work', 'verb' => 'POST'],
        ['name' => 'KmaWork#getAllKmaWork', 'url' => '/all_kma_work', 'verb' => 'GET'],
        ['name' => 'KmaWork#getKmaWork', 'url' => '/kma_work/{user_id}', 'verb' => 'GET'],
        ['name' => 'KmaWork#createKmaWork', 'url' => '/create_kma_work', 'verb' => 'POST'],
+       ['name' => 'KMAUser#deleteKmaWork', 'url' => '/delete_kma_work/{work_id}', 'verb' => 'DELETE'],
 
        #Task_Item
     //    ['name' => 'KmaTask#sayHi', 'url' => '/sayhii', 'verb' => 'GET'],
        ['name' => 'KmaTask#createKmaTask', 'url' => '/create_kma_task', 'verb' => 'POST'],
        ['name' => 'KmaTask#getAllKmaTask', 'url' => '/all_kma_tasks', 'verb' => 'GET'],
+       ['name' => 'KmaTask#getTaskByWork', 'url' => '/kma_tasks/{work_id}', 'verb' => 'GET'],
+       ['name' => 'KmaTask#getTaskByUserCreate', 'url' => '/kma_tasks/{user_id}', 'verb' => 'GET'],
        ['name' => 'KmaTask#getTaskByUserSupport', 'url' => '/kma_tasks/{user_id}', 'verb' => 'GET'],
        ['name' => 'KmaTask#getTaskByUserRespond', 'url' => '/kma_tasks/{user_id}', 'verb' => 'GET'],
+       ['name' => 'KmaTask#deleteKmaTask', 'url' => '/delete_kma_task/{task_id}', 'verb' => 'DELETE'],
 
        #Level
        ['name' => 'KmaLevel#createKmaLevel', 'url' => '/create_kma_level', 'verb' => 'POST'],

@@ -121,11 +121,11 @@ class KmaWorkController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_work_id
+     * @param integer $kma_work_id
      * @param string $work_name
      * @param longtext $work_description
-     * @param string $level_id
-     * @param string $status_id
+     * @param integer $level_id
+     * @param integer $status_id
 	 * @param string $user_create
      * @return JSONResponse
      */
@@ -144,16 +144,15 @@ class KmaWorkController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $work_id
+     * @param integer $work_id
      */
-    public function deleteKmaWork($kma_work_id) {
+    public function deleteKmaWork($work_id) {
         $query = $this->db->getQueryBuilder();
         $query->delete('kma_work_item')
             ->where($query->expr()->eq('work_id', $query->createNamedParameter($work_id)))
             ->execute();
         return new DataResponse(['status' => 'success']);
     }
-
 
 
 }
