@@ -33,10 +33,10 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 		// work_item
         if (!$schema->hasTable('kma_work_item')){
 			$table = $schema->createTable('kma_work_item');
-			$table->addColumn('work_id', 'string', [
+			$table->addColumn('work_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
-				'default' => '',
+				'autoincrement' => true,
 			]);
 
             $table->addColumn('work_name', 'string', [
@@ -49,14 +49,16 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 
-			$table->addColumn('level_id', 'string', [
+			$table->addColumn('level_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
+				'default' => '',
 			]);
 
-            $table->addColumn('status_id', 'string', [
+            $table->addColumn('status_id', 'integer', [
 				'notnull' => false,
 				'length' => 64,
+				'default' => '',
 			]);
 
             $table->addColumn('user_create', 'string', [
@@ -70,10 +72,10 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 		// level
         if (!$schema->hasTable('kma_level')){
 			$table = $schema->createTable('kma_level');
-			$table->addColumn('level_id', 'string', [
+			$table->addColumn('level_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
-				'default' => '',
+				'autoincrement' => true,
 			]);
 
 			$table->addColumn('level_name', 'string', [
@@ -92,10 +94,10 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 		// task_item
         if (!$schema->hasTable('kma_task_item')){
 			$table = $schema->createTable('kma_task_item');
-			$table->addColumn('task_id', 'string', [
+			$table->addColumn('task_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
-				'default' => '',
+				'autoincrement' => true,
 			]);
 
 			$table->addColumn('task_name', 'string', [
@@ -108,17 +110,17 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'length' => 255
 			]);
 
-			$table->addColumn('status_id', 'string', [
+			$table->addColumn('status_id', 'integer', [
 				'notnull' => false,
 				'length' => 64,
 			]);
 
-            $table->addColumn('work_id', 'string', [
+            $table->addColumn('work_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
 			]);
 
-			$table->addColumn('level_id', 'string', [
+			$table->addColumn('level_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
 			]);
@@ -129,6 +131,11 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 
             $table->addColumn('work_end', 'date', [
 				'notnull' => false,
+			]);
+
+			$table->addColumn('user_create', 'string', [
+				'notnull' => true,
+				'length' => 64,
 			]);
 
 			$table->addColumn('user_respond', 'string', [
@@ -147,10 +154,10 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 		// status
         if (!$schema->hasTable('kma_status')){
 			$table = $schema->createTable('kma_status');
-			$table->addColumn('status_id', 'string', [
+			$table->addColumn('status_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
-				'default' => '',
+				'autoincrement' => true,
 			]);
 
 			$table->addColumn('status_name', 'string', [
@@ -165,7 +172,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 		// comment
 		if (!$schema->hasTable('kma_comments')){
 			$table = $schema->createTable('kma_comments');
-			$table->addColumn('comments_id', 'integer', [
+			$table->addColumn('comment_id', 'integer', [
 				'notnull' => true,
 				'length' => 64,
 				'autoincrement' => true,

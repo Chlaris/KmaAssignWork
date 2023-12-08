@@ -39,11 +39,12 @@ class KmaTaskController extends Controller {
      * @param string $level_id
      * @param date $work_start
 	 * @param date $work_end
+     * @param string $user_create
      * @param string $user_respond
      * @param string $user_support
      */
     public function createKmaTask($task_id, $task_name, $task_description, $status_id, $work_id, $level_id, $work_start, 
-    $work_end, $user_respond, $user_support) {
+    $work_end, $user_create, $user_respond, $user_support) {
         $query = $this->db->getQueryBuilder();
         $query->insert('kma_task_item')
                 ->values([
@@ -55,41 +56,12 @@ class KmaTaskController extends Controller {
                     'level_id' => $query->createNamedParameter($level_id),
                     'work_start' => $query->createNamedParameter($work_start),
                     'work_end' => $query->createNamedParameter($work_end),
+                    'user_create' => $query->createNamedParameter($user_create),
                     'user_respond' => $query->createNamedParameter($user_respond),
                     'user_support' => $query->createNamedParameter($user_support),
                 ])
                 ->execute();
             return new DataResponse(['status' => 'success']);
-            
-        // $currentUser = $this->userSession->getUser();
-        // $uid = $currentUser->getUID();
-
-		// if ($this->groupManager->isAdmin($uid)) {
-        //     $work = $this->db->getQueryBuilder();
-        //     $work->select('*')
-        //         ->from('oc_kma_work')
-        //         ->where($work->expr()->eq('kma_work_id', $user->createNamedParameter($kma_work_id)));
-        //     $result = $work->execute();
-        //     $data = $result->fetch();
-        //     if ($data === false) {
-        //         return new DataResponse(["Don't have this work"], Http::STATUS_NOT_FOUND);
-        //     }
-
-        //     $query = $this->db->getQueryBuilder();
-        //     $query->insert('kma_task_in_work')
-        //         ->values([
-        //             'kma_task_id' => $query->createNamedParameter($kma_task_id),
-        //             'kma_work_id' => $query->createNamedParameter($kma_work_id),
-        //             'task_name' => $query->createNamedParameter($task_name),
-        //             'content' => $query->createNamedParameter($content),
-        //             'status' => $query->createNamedParameter($status),
-        //         ])
-        //         ->execute();
-        //     return new DataResponse(['status' => 'success']);
-        // }
-        // else {
-        //     return new DataResponse(['No admin']);
-        // }
         
     }
 
@@ -111,13 +83,13 @@ class KmaTaskController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $kma_task_id
+     * @param string $user_id
      */
-    public function getKmaTaskInWork($kma_task_id) {
+    public function getTaskByUserCreate($user_id) {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('kma_task_in_work')
-            ->where($query->expr()->eq('kma_task_id', $query->createNamedParameter($kma_task_id)));
+            ->from('kma_task_item')
+            ->where($query->expr()->eq('user_create', $query->createNamedParameter($user_id)));
 
         $result = $query->execute();
         $data = $result->fetchAll();
@@ -125,14 +97,87 @@ class KmaTaskController extends Controller {
             return new DataResponse([], Http::STATUS_NOT_FOUND);
         }
         return new DataResponse([
-            'Ma tac vu' => $data['kma_task_id'],
-            'Ma cong viec' => $data['kma_work_id'],
+            'Ma tac vu' => $data['task_id'],
             'Ten tac vu' => $data['task_name'],
-            'Noi dung' => $data['content'],
-            'Trang thai' => $data['status'],
+            'Noi dung' => $data['task_description'],
+            'Muc do uu tien' => $data['level_id'],
+            'Trang thai' => $data['status_id'],
+            'Ma cong viec' => $data['kma_work_id'],
+            'Thoi gian bat dau' => $data['work_start'],
+            'Thoi gian hoan thanh' => $data['work_end'],
+            'Nguoi tao' => $data['user_create'],
+            'Nguoi phu trach' => $data['user_respond'],
+            'Nguoi ho tro' => $data['user_support'],
+        ]);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     *
+     * @param string $user_id
+     */
+    public function getTaskByUserSupport($user_id) {
+        $query = $this->db->getQueryBuilder();
+        $query->select('*')
+            ->from('kma_task_item')
+            ->where($query->expr()->eq('user_support', $query->createNamedParameter($user_id)));
+
+        $result = $query->execute();
+        $data = $result->fetchAll();
+        if ($data === false) {
+            return new DataResponse([], Http::STATUS_NOT_FOUND);
+        }
+        return new DataResponse([
+            'Ma tac vu' => $data['task_id'],
+            'Ten tac vu' => $data['task_name'],
+            'Noi dung' => $data['task_description'],
+            'Muc do uu tien' => $data['level_id'],
+            'Trang thai' => $data['status_id'],
+            'Ma cong viec' => $data['kma_work_id'],
+            'Thoi gian bat dau' => $data['work_start'],
+            'Thoi gian hoan thanh' => $data['work_end'],
+            'Nguoi tao' => $data['user_create'],
+            'Nguoi phu trach' => $data['user_respond'],
+            'Nguoi ho tro' => $data['user_support'],
         ]);
     }
     
+
+        /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     *
+     * @param string $user_id
+     */
+    public function getTaskByUserRespond($user_id) {
+        $query = $this->db->getQueryBuilder();
+        $query->select('*')
+            ->from('kma_task_in_work')
+            ->where($query->expr()->eq('user_respond', $query->createNamedParameter($user_id)));
+
+        $result = $query->execute();
+        $data = $result->fetchAll();
+        if ($data === false) {
+            return new DataResponse([], Http::STATUS_NOT_FOUND);
+        }
+        return new DataResponse([
+            'Ma tac vu' => $data['task_id'],
+            'Ten tac vu' => $data['task_name'],
+            'Noi dung' => $data['task_description'],
+            'Muc do uu tien' => $data['level_id'],
+            'Trang thai' => $data['status_id'],
+            'Ma cong viec' => $data['kma_work_id'],
+            'Thoi gian bat dau' => $data['work_start'],
+            'Thoi gian hoan thanh' => $data['work_end'],
+            'Nguoi tao' => $data['user_create'],
+            'Nguoi phu trach' => $data['user_respond'],
+            'Nguoi ho tro' => $data['user_support'],
+
+        ]);
+    }
+
+
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
