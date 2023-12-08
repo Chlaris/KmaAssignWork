@@ -49,8 +49,9 @@ return [
 
        #Connection
        ['name' => 'KmaConnection#getAllKmaConnections', 'url' => '/all_connections', 'verb' => 'GET'],
-       ['name' => 'KmaConnection#getKmaConnection', 'url' => '/kma_connection/{connection_id}', 'verb' => 'GET'],
+       ['name' => 'KmaConnection#getKmaConnectionByTask', 'url' => '/kma_connection/{task_id}', 'verb' => 'GET'],
        ['name' => 'KmaConnection#createKmaConnection', 'url' => '/create_kma_connection', 'verb' => 'POST'],
+       ['name' => 'KmaConnection#deleteConnection', 'url' => '/delete_connection/{connection_id}', 'verb' => 'DELETE'],
 
     ]
 ];

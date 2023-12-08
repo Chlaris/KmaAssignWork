@@ -32,7 +32,7 @@ class KmaConnectionController extends Controller {
      * @NoCSRFRequired
      *
      * @param integer $connection_id
-     * @param string $task_id
+     * @param integer $task_id
      * @param integer $file_id
      */
     public function createKmaConnection($connection_id, $task_id, $file_id) {
@@ -45,36 +45,6 @@ class KmaConnectionController extends Controller {
                 ])
                 ->execute();
             return new DataResponse(['status' => 'success']);
-            
-        // $currentUser = $this->userSession->getUser();
-        // $uid = $currentUser->getUID();
-
-		// if ($this->groupManager->isAdmin($uid)) {
-        //     $work = $this->db->getQueryBuilder();
-        //     $work->select('*')
-        //         ->from('oc_kma_work')
-        //         ->where($work->expr()->eq('kma_work_id', $user->createNamedParameter($kma_work_id)));
-        //     $result = $work->execute();
-        //     $data = $result->fetch();
-        //     if ($data === false) {
-        //         return new DataResponse(["Don't have this work"], Http::STATUS_NOT_FOUND);
-        //     }
-
-        //     $query = $this->db->getQueryBuilder();
-        //     $query->insert('kma_task_in_work')
-        //         ->values([
-        //             'kma_task_id' => $query->createNamedParameter($kma_task_id),
-        //             'kma_work_id' => $query->createNamedParameter($kma_work_id),
-        //             'task_name' => $query->createNamedParameter($task_name),
-        //             'content' => $query->createNamedParameter($content),
-        //             'status' => $query->createNamedParameter($status),
-        //         ])
-        //         ->execute();
-        //     return new DataResponse(['status' => 'success']);
-        // }
-        // else {
-        //     return new DataResponse(['No admin']);
-        // }
         
     }
 
@@ -96,13 +66,13 @@ class KmaConnectionController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param integer $connection_id
+     * @param integer $task_id
      */
-    public function getKmaConnection($connection_id) {
+    public function getKmaConnectionByTask($task_id) {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
             ->from('kma_connection')
-            ->where($query->expr()->eq('connection_id', $query->createNamedParameter($connection_id)));
+            ->where($query->expr()->eq('task_id', $query->createNamedParameter($task_id)));
 
         $result = $query->execute();
         $data = $result->fetchAll();
@@ -116,22 +86,6 @@ class KmaConnectionController extends Controller {
         ]);
     }
     
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     *
-     * @param integer $connection_id
-     * @param string $task_id
-     * @param integer $file_id
-     * @return JSONResponse
-     */
-    public function updateConnection($connection_id, $task_id = null, $file_id = null) {
-        $query = $this->db->prepare('UPDATE `oc_kma_connection` SET `task_id` = COALESCE(?, `task_id`), 
-                                                            `file_id` = COALESCE(?, `file_id`), 
-                                                                WHERE `connection_id` = ?');
-        $query->execute(array($task_id, $file_id, $connection_id));
-        return new JSONResponse(array('status' => 'success'));
-    }
 
     /**
      * @NoAdminRequired
