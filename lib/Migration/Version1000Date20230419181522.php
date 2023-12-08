@@ -191,6 +191,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
             $table->setPrimaryKey(['comments_id']);
         }
 
+		// connection
 		if (!$schema->hasTable('kma_connection')){
 			$table = $schema->createTable('kma_connection');
 			$table->addColumn('connection_id', 'integer', [
