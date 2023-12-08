@@ -121,7 +121,7 @@ class KmaWorkController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param integer $kma_work_id
+     * @param integer $work_id
      * @param string $work_name
      * @param longtext $work_description
      * @param integer $level_id
@@ -129,14 +129,13 @@ class KmaWorkController extends Controller {
 	 * @param string $user_create
      * @return JSONResponse
      */
-    public function updateInfoKMAUser($kma_work_id, $work_name = null, $work_description = null, $level_id = null, $status_id = null, $user_create = null) {
+    public function updateWork($work_id, $work_name = null, $work_description = null, $level_id = null, $status_id = null, $user_create) {
         $query = $this->db->prepare('UPDATE `oc_kma_work_item` SET `work_name` = COALESCE(?, `work_name`), 
                                                             `work_description` = COALESCE(?, `work_description`), 
                                                             `level_id` = COALESCE(?, `level_id`), 
                                                             `status_id` = COALESCE(?, `status_id`), 
-                                                            `user_create` = COALESCE(?, `user_create`)
                                                                 WHERE `kma_work_id` = ?');
-        $query->execute(array($work_name, $work_description, $level_id, $status_id, $user_create, $kma_work_id));
+        $query->execute(array($work_name, $work_description, $level_id, $status_id, $work_id, $user_create));
         return new JSONResponse(array('status' => 'success'));
     }
 

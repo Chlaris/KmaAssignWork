@@ -18,7 +18,7 @@ return [
        ['name' => 'KmaWork#createKmaWork', 'url' => '/create_kma_work', 'verb' => 'POST'],
        ['name' => 'KmaWork#getAllKmaWork', 'url' => '/all_kma_work', 'verb' => 'GET'],
        ['name' => 'KmaWork#getKmaWork', 'url' => '/kma_work/{user_id}', 'verb' => 'GET'],
-       ['name' => 'KmaWork#createKmaWork', 'url' => '/create_kma_work', 'verb' => 'POST'],
+       ['name' => 'KmaWork#updateWork', 'url' => '/update_kma_work/{work_id}', 'verb' => 'PUT'],
        ['name' => 'KMAUser#deleteKmaWork', 'url' => '/delete_kma_work/{work_id}', 'verb' => 'DELETE'],
 
        #Task_Item
@@ -40,9 +40,12 @@ return [
        ['name' => 'KmaStatus#getAllKmaStatus', 'url' => '/all_kma_status', 'verb' => 'GET'],
 
        #Comment
-       ['name' => 'KmaCommnet#getAllTaskComments', 'url' => '/all_task_comments', 'verb' => 'GET'],
-       ['name' => 'KmaCommnet#getKmaComment', 'url' => '/kma_comments/{comment_id}', 'verb' => 'GET'],
-       ['name' => 'KmaCommnet#createKmaComment', 'url' => '/create_kma_comment', 'verb' => 'POST'],
+       ['name' => 'KmaComment#getAllTaskComments', 'url' => '/all_task_comments', 'verb' => 'GET'],
+       ['name' => 'KmaComment#getKmaComment', 'url' => '/kma_comments/{user_create}', 'verb' => 'GET'],
+       ['name' => 'KmaComment#createKmaComment', 'url' => '/create_kma_comment', 'verb' => 'POST'],
+       ['name' => 'KmaComment#updateComment', 'url' => '/update_comment/{comment_id}', 'verb' => 'PUT'],
+       ['name' => 'KmaComment#deleteComment', 'url' => '/delete_comment/{comment_id}', 'verb' => 'DELETE'],
+
 
        #Connection
        ['name' => 'KmaConnection#getAllKmaConnections', 'url' => '/all_connections', 'verb' => 'GET'],

@@ -37,7 +37,7 @@ class KmaCommentController extends Controller {
      */
     public function createKmaComment($comment_id, $user_create, $message) {
         $query = $this->db->getQueryBuilder();
-        $query->insert('kma_comments')
+        $query->insert('kma_comment')
                 ->values([
                     'comment_id' => $query->createNamedParameter($comment_id),
                     'user_create' => $query->createNamedParameter($user_create),
@@ -46,63 +46,20 @@ class KmaCommentController extends Controller {
                 ->execute();
             return new DataResponse(['status' => 'success']);
             
-        // $currentUser = $this->userSession->getUser();
-        // $uid = $currentUser->getUID();
-
-		// if ($this->groupManager->isAdmin($uid)) {
-        //     $work = $this->db->getQueryBuilder();
-        //     $work->select('*')
-        //         ->from('oc_kma_work')
-        //         ->where($work->expr()->eq('kma_work_id', $user->createNamedParameter($kma_work_id)));
-        //     $result = $work->execute();
-        //     $data = $result->fetch();
-        //     if ($data === false) {
-        //         return new DataResponse(["Don't have this work"], Http::STATUS_NOT_FOUND);
-        //     }
-
-        //     $query = $this->db->getQueryBuilder();
-        //     $query->insert('kma_task_in_work')
-        //         ->values([
-        //             'kma_task_id' => $query->createNamedParameter($kma_task_id),
-        //             'kma_work_id' => $query->createNamedParameter($kma_work_id),
-        //             'task_name' => $query->createNamedParameter($task_name),
-        //             'content' => $query->createNamedParameter($content),
-        //             'status' => $query->createNamedParameter($status),
-        //         ])
-        //         ->execute();
-        //     return new DataResponse(['status' => 'success']);
-        // }
-        // else {
-        //     return new DataResponse(['No admin']);
-        // }
-        
     }
 
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     */
-    public function getAllTaskComments() {
-        $query = $this->db->getQueryBuilder();
-        $query->select('*')
-            ->from('kma_comments');
-
-        $result = $query->execute();
-        $comments = $result->fetchAll();
-        return ['comments' => $comments];
-    }
 
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $comment_id
+     * @param string $user_create
      */
-    public function getKmaComment($comment_id) {
+    public function getKmaComment($user_create) {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
-            ->from('kma_comments')
-            ->where($query->expr()->eq('comment_id', $query->createNamedParameter($comment_id)));
+            ->from('kma_comment')
+            ->where($query->expr()->eq('user_create', $query->createNamedParameter($user_create)));
 
         $result = $query->execute();
         $data = $result->fetchAll();
@@ -125,11 +82,10 @@ class KmaCommentController extends Controller {
      * @param longtext $message
      * @return JSONResponse
      */
-    public function updateComment($comment_id, $user_create = null, $message = null) {
-        $query = $this->db->prepare('UPDATE `oc_kma_comments` SET `user_create` = COALESCE(?, `user_create`), 
-                                                            `message` = COALESCE(?, `message`),  
+    public function updateComment($comment_id, $user_create, $message = null) {
+        $query = $this->db->prepare('UPDATE `oc_kma_comment` SET `message` = COALESCE(?, `message`),  
                                                                 WHERE `comment_id` = ?');
-        $query->execute(array($user_create, $message, $comment_id));
+        $query->execute(array($message, $comment_id, $user_create));
         return new JSONResponse(array('status' => 'success'));
     }
 
@@ -141,7 +97,7 @@ class KmaCommentController extends Controller {
      */
     public function deleteComment($comment_id) {
         $query = $this->db->getQueryBuilder();
-        $query->delete('kma_comments')
+        $query->delete('kma_comment')
             ->where($query->expr()->eq('comment_id', $query->createNamedParameter($comment_id)))
             ->execute();
         return new DataResponse(['status' => 'success']);
