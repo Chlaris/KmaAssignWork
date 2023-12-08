@@ -123,13 +123,13 @@ class KmaWorkController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      *
-     * @param string $work_id
+     * @param string $user_id
      */
-    public function getKmaWork($work_id) {
+    public function getKmaWork($user_id) {
         $query = $this->db->getQueryBuilder();
         $query->select('*')
             ->from('kma_work_item')
-            ->where($query->expr()->eq('work_id', $query->createNamedParameter($work_id)));
+            ->where($query->expr()->eq('user_create', $query->createNamedParameter($user_id)));
 
         $result = $query->execute();
         $data = $result->fetchAll();
