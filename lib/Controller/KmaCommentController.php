@@ -105,14 +105,15 @@ class KmaCommentController extends Controller {
      * @NoCSRFRequired
      *
      * @param integer $comment_id
+     * @param integer $task_id
      * @param string $user_create
      * @param longtext $message
      * @return JSONResponse
      */
-    public function updateComment($comment_id, $user_create, $message = null) {
+    public function updateComment($comment_id, $task_id, $user_create, $message = null) {
         $query = $this->db->prepare('UPDATE `oc_kma_comment` SET `message` = COALESCE(?, `message`),  
                                                                 WHERE `comment_id` = ?');
-        $query->execute(array($message, $comment_id, $user_create));
+        $query->execute(array($message, $comment_id, $task_id, $user_create));
         return new JSONResponse(array('status' => 'success'));
     }
 

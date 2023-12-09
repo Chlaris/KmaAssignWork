@@ -42,7 +42,7 @@ return [
        #Comment
       //  ['name' => 'KmaComment#getAllTaskComments', 'url' => '/all_task_comments', 'verb' => 'GET'],
        ['name' => 'KmaComment#getKmaCommentInTask', 'url' => '/kma_comments/{task_id}', 'verb' => 'GET'],
-       ['name' => 'KmaComment#getKmaCommentByUser', 'url' => '/kma_comments/{user_create}', 'verb' => 'GET'],
+      //  ['name' => 'KmaComment#getKmaCommentByUser', 'url' => '/kma_comments/{user_create}', 'verb' => 'GET'],
        ['name' => 'KmaComment#createKmaComment', 'url' => '/create_kma_comment', 'verb' => 'POST'],
        ['name' => 'KmaComment#updateComment', 'url' => '/update_comment/{comment_id}', 'verb' => 'PUT'],
        ['name' => 'KmaComment#deleteComment', 'url' => '/delete_comment/{comment_id}', 'verb' => 'DELETE'],
