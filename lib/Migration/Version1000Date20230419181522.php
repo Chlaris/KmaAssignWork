@@ -178,6 +178,12 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'autoincrement' => true,
 			]);
 
+			$table->addColumn('task_id', 'string', [
+				'notnull' => true,
+				'length' => 64,
+				'default' => '',
+			]);
+
 			$table->addColumn('user_create', 'string', [
 				'notnull' => true,
 				'length' => 64,

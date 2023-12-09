@@ -16,7 +16,7 @@ return [
        #Work_Item
     //    ['name' => 'KmaWork#sayHi', 'url' => '/sayhi', 'verb' => 'GET'],
        ['name' => 'KmaWork#createKmaWork', 'url' => '/create_kma_work', 'verb' => 'POST'],
-       ['name' => 'KmaWork#getAllKmaWork', 'url' => '/all_kma_work', 'verb' => 'GET'],
+      //  ['name' => 'KmaWork#getAllKmaWork', 'url' => '/all_kma_work', 'verb' => 'GET'],
        ['name' => 'KmaWork#getKmaWork', 'url' => '/kma_work/{user_id}', 'verb' => 'GET'],
        ['name' => 'KmaWork#updateWork', 'url' => '/update_kma_work/{work_id}', 'verb' => 'PUT'],
        ['name' => 'KMAUser#deleteKmaWork', 'url' => '/delete_kma_work/{work_id}', 'verb' => 'DELETE'],
@@ -24,7 +24,7 @@ return [
        #Task_Item
     //    ['name' => 'KmaTask#sayHi', 'url' => '/sayhii', 'verb' => 'GET'],
        ['name' => 'KmaTask#createKmaTask', 'url' => '/create_kma_task', 'verb' => 'POST'],
-       ['name' => 'KmaTask#getAllKmaTask', 'url' => '/all_kma_tasks', 'verb' => 'GET'],
+      //  ['name' => 'KmaTask#getAllKmaTask', 'url' => '/all_kma_tasks', 'verb' => 'GET'],
        ['name' => 'KmaTask#getTaskByWork', 'url' => '/kma_tasks/{work_id}', 'verb' => 'GET'],
        ['name' => 'KmaTask#getTaskByUserCreate', 'url' => '/kma_tasks/{user_id}', 'verb' => 'GET'],
        ['name' => 'KmaTask#getTaskByUserSupport', 'url' => '/kma_tasks/{user_id}', 'verb' => 'GET'],
@@ -40,15 +40,16 @@ return [
        ['name' => 'KmaStatus#getAllKmaStatus', 'url' => '/all_kma_status', 'verb' => 'GET'],
 
        #Comment
-       ['name' => 'KmaComment#getAllTaskComments', 'url' => '/all_task_comments', 'verb' => 'GET'],
-       ['name' => 'KmaComment#getKmaComment', 'url' => '/kma_comments/{user_create}', 'verb' => 'GET'],
+      //  ['name' => 'KmaComment#getAllTaskComments', 'url' => '/all_task_comments', 'verb' => 'GET'],
+       ['name' => 'KmaComment#getKmaCommentInTask', 'url' => '/kma_comments/{task_id}', 'verb' => 'GET'],
+       ['name' => 'KmaComment#getKmaCommentByUser', 'url' => '/kma_comments/{user_create}', 'verb' => 'GET'],
        ['name' => 'KmaComment#createKmaComment', 'url' => '/create_kma_comment', 'verb' => 'POST'],
        ['name' => 'KmaComment#updateComment', 'url' => '/update_comment/{comment_id}', 'verb' => 'PUT'],
        ['name' => 'KmaComment#deleteComment', 'url' => '/delete_comment/{comment_id}', 'verb' => 'DELETE'],
 
 
        #Connection
-       ['name' => 'KmaConnection#getAllKmaConnections', 'url' => '/all_connections', 'verb' => 'GET'],
+      //  ['name' => 'KmaConnection#getAllKmaConnections', 'url' => '/all_connections', 'verb' => 'GET'],
        ['name' => 'KmaConnection#getKmaConnectionByTask', 'url' => '/kma_connection/{task_id}', 'verb' => 'GET'],
        ['name' => 'KmaConnection#createKmaConnection', 'url' => '/create_kma_connection', 'verb' => 'POST'],
        ['name' => 'KmaConnection#deleteConnection', 'url' => '/delete_connection/{connection_id}', 'verb' => 'DELETE'],
