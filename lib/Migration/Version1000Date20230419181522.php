@@ -194,7 +194,7 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 
-            $table->setPrimaryKey(['comments_id']);
+            $table->setPrimaryKey(['comment_id']);
         }
 
 		// connection
@@ -219,6 +219,42 @@ class Version1000Date20230419181522 extends SimpleMigrationStep {
 
             $table->setPrimaryKey(['connection_id']);
         }
+
+		// notification
+		if (!$schema->hasTable('kma_notification')){
+			$table = $schema->createTable('kma_notification');
+			$table->addColumn('notification_id', 'integer', [
+				'notnull' => true,
+				'length' => 64,
+				'autoincrement' => true,
+			]);
+
+			$table->addColumn('user_create', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+
+			$table->addColumn('content', 'text', [
+				'notnull' => true,
+				'length' => 255
+			]);
+
+			$table->addColumn('time_create', 'date', [
+				'notnull' => false,
+			]);
+
+			$table->addColumn('is_read', 'boolean', [
+				'notnull' => false,
+			]);
+			
+			$table->addColumn('user_received', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+
+            $table->setPrimaryKey(['notification_id']);
+        }
+
 
 		return $schema;
     }

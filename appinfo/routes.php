@@ -41,7 +41,7 @@ return [
 
        #Comment
       //  ['name' => 'KmaComment#getAllTaskComments', 'url' => '/all_task_comments', 'verb' => 'GET'],
-       ['name' => 'KmaComment#getKmaCommentInTask', 'url' => '/kma_comments/{task_id}', 'verb' => 'GET'],
+       ['name' => 'KmaComment#getKmaCommentInTask', 'url' => '/kma_comment/{task_id}', 'verb' => 'GET'],
       //  ['name' => 'KmaComment#getKmaCommentByUser', 'url' => '/kma_comments/{user_create}', 'verb' => 'GET'],
        ['name' => 'KmaComment#createKmaComment', 'url' => '/create_kma_comment', 'verb' => 'POST'],
        ['name' => 'KmaComment#updateComment', 'url' => '/update_comment/{comment_id}', 'verb' => 'PUT'],
@@ -53,6 +53,11 @@ return [
        ['name' => 'KmaConnection#getKmaConnectionByTask', 'url' => '/kma_connection/{task_id}', 'verb' => 'GET'],
        ['name' => 'KmaConnection#createKmaConnection', 'url' => '/create_kma_connection', 'verb' => 'POST'],
        ['name' => 'KmaConnection#deleteConnection', 'url' => '/delete_connection/{connection_id}', 'verb' => 'DELETE'],
+
+
+       #Notification
+       ['name' => 'KmaNotification#createKmaNotif', 'url' => '/create_kma_notification', 'verb' => 'POST'],
+       ['name' => 'KmaNotification#getNotif', 'url' => '/kma_notification/{user_id}', 'verb' => 'GET'],
 
     ]
 ];
